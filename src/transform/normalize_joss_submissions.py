@@ -2,9 +2,7 @@
 # Copyright (c) 2026.
 # SPDX-License-Identifier: MIT
 
-"""
-Normalize raw GitHub issue JSON files into a single JOSS submissions JSON file.
-"""
+"""Normalize raw GitHub issue JSON files into a single JOSS submissions JSON file."""
 
 from __future__ import annotations
 
@@ -59,7 +57,9 @@ def parse_args() -> argparse.Namespace:
         Parsed CLI args.
 
     """
-    parser = argparse.ArgumentParser(description="Normalize JOSS issue bodies into one JSON file.")
+    parser = argparse.ArgumentParser(
+        description="Normalize JOSS issue bodies into one JSON file."
+    )
     parser.add_argument(
         "--in-dir",
         default="data/raw/openjournals_joss-reviews/issues",
@@ -70,7 +70,9 @@ def parse_args() -> argparse.Namespace:
         default="data/derived/joss_submissions.json",
         help="Output JSON file (list of normalized submissions)",
     )
-    parser.add_argument("--log-level", default="INFO", help="Logging level (DEBUG/INFO/WARNING/ERROR)")
+    parser.add_argument(
+        "--log-level", default="INFO", help="Logging level (DEBUG/INFO/WARNING/ERROR)"
+    )
     return parser.parse_args()
 
 
@@ -143,7 +145,10 @@ def main() -> int:
     """
     args = parse_args()
     level_name = str(args.log_level).upper()
-    logging.basicConfig(level=getattr(logging, level_name, logging.INFO), format="%(levelname)s: %(message)s")
+    logging.basicConfig(
+        level=getattr(logging, level_name, logging.INFO),
+        format="%(levelname)s: %(message)s",
+    )
 
     in_dir = Path(str(args.in_dir))
     if not in_dir.exists():
@@ -155,7 +160,9 @@ def main() -> int:
 
     submissions, skipped, failed = _normalize_dir(in_dir)
 
-    out_file.write_text(json.dumps(submissions, indent=2, sort_keys=True), encoding="utf-8")
+    out_file.write_text(
+        json.dumps(submissions, indent=2, sort_keys=True), encoding="utf-8"
+    )
     LOGGER.info(
         "Wrote %s normalized submissions to %s (skipped=%s failed=%s).",
         len(submissions),
